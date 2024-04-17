@@ -105,8 +105,8 @@ impl CloneArgs {
         // if the etherscan api key is not set, we need to wait for 3 seconds between calls
         p_println!(!opts.quiet => "Collecting the creation information of {} from Etherscan...", address);
         if etherscan_api_key.is_empty() {
-            p_println!(!opts.quiet => "Waiting for 3 seconds to avoid rate limit...");
-            tokio::time::sleep(Duration::from_secs(3)).await;
+            p_println!(!opts.quiet => "Waiting for 5 seconds to avoid rate limit...");
+            tokio::time::sleep(Duration::from_secs(5)).await;
         }
         Self::collect_compilation_metadata(&meta, chain, address, &root, &client, opts.quiet)
             .await?;
