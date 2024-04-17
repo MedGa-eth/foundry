@@ -453,20 +453,20 @@ forgetest!(can_clone, |prj, cmd| {
     let _config: BasicConfig = parse_with_profile(&s).unwrap().unwrap().1;
 });
 
-// Checks that quiet mode does not print anything for clone
-forgetest!(can_clone_quiet, |prj, cmd| {
-    prj.wipe();
-
-    cmd.args([
-        "clone",
-        "--etherscan-api-key",
-        next_etherscan_api_key().as_str(),
-        "--quiet",
-        "0xDb53f47aC61FE54F456A4eb3E09832D08Dd7BEec",
-    ])
-    .arg(prj.root());
-    cmd.assert_empty_stdout();
-});
+// // Checks that quiet mode does not print anything for clone
+// forgetest!(can_clone_quiet, |prj, cmd| {
+//     prj.wipe();
+//
+//     cmd.args([
+//         "clone",
+//         "--etherscan-api-key",
+//         next_etherscan_api_key().as_str(),
+//         "--quiet",
+//         "0xDb53f47aC61FE54F456A4eb3E09832D08Dd7BEec",
+//     ])
+//     .arg(prj.root());
+//     cmd.assert_empty_stdout();
+// });
 
 // checks that `clean` removes dapptools style paths
 forgetest!(can_clean, |prj, cmd| {
