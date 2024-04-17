@@ -218,7 +218,6 @@ impl CloneArgs {
         // dump sources and update the remapping in configuration
         let Settings { remappings: original_remappings, .. } = meta.settings()?;
         let (remappings, strip_old_src) = dump_sources(meta, root)?;
-        println!("WTF 1 remappings {:?}", remappings);
         Config::update_at(root, |config, doc| {
             let profile = config.profile.as_str().as_str();
             let mut remapping_array = toml_edit::Array::new();
@@ -415,9 +414,6 @@ fn dump_sources(meta: &Metadata, root: &PathBuf) -> Result<(Vec<RelativeRemappin
     let path_config = ProjectPathsConfig::builder().build_with_root(root);
     // we will canonicalize the sources directory later
     let src_dir = &path_config.sources;
-    println!("WTF??? root {:?}", root);
-    println!("WTF??? root.join(src) {:?}", root.join(src_dir));
-    println!("WTF??? src_dir {:?}", src_dir);
     let contract_name = &meta.contract_name;
     let source_tree = meta.source_tree();
 
@@ -456,9 +452,6 @@ fn dump_sources(meta: &Metadata, root: &PathBuf) -> Result<(Vec<RelativeRemappin
             for e in read_dir(entry.path())? {
                 let e = e?;
                 let dest = src_dir.join(e.file_name());
-                println!("WTF 1 e {:?}", e);
-                println!("WTF 1 src_dir {:?}", src_dir);
-                println!("WTF 1 dest {:?} {:?}", dest, dest.to_string_lossy());
                 std::fs::rename(e.path(), &dest)?;
                 remappings.push(Remapping {
                     context: None,
@@ -469,9 +462,6 @@ fn dump_sources(meta: &Metadata, root: &PathBuf) -> Result<(Vec<RelativeRemappin
         } else {
             // move the other folders to src
             let dest = src_dir.join(entry.file_name());
-            println!("WTF 1 entry {:?}", entry);
-            println!("WTF 1 src_dir {:?}", src_dir);
-            println!("WTF 1 dest {:?} {:?}", dest, dest.to_string_lossy());
             std::fs::rename(entry.path(), &dest)?;
             remappings.push(Remapping {
                 context: None,
@@ -490,9 +480,7 @@ fn dump_sources(meta: &Metadata, root: &PathBuf) -> Result<(Vec<RelativeRemappin
 /// Compile the project in the root directory, and return the compilation result.
 pub fn compile_project(root: &PathBuf, quiet: bool) -> Result<ProjectCompileOutput> {
     let mut config = Config::load_with_root(root);
-    println!("config before: {:#?}", config);
     config = config.sanitized();
-    println!("config after : {:#?}", config);
     config.extra_output.push(ContractOutputSelection::StorageLayout);
     let project = config.project()?;
     let compiler = ProjectCompiler::new().quiet_if(quiet);
