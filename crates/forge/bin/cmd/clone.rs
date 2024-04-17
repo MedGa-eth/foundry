@@ -413,7 +413,10 @@ fn update_config_by_metadata(
 fn dump_sources(meta: &Metadata, root: &PathBuf) -> Result<(Vec<RelativeRemapping>, bool)> {
     // get config
     let path_config = ProjectPathsConfig::builder().build_with_root(root);
-    let src_dir = root.join(path_config.sources).canonicalize()?;
+    let src_dir = root.join(path_config.sources.clone()).canonicalize()?;
+    println!("WTF??? root {:?}", root);
+    println!("WTF??? root.join(src) {:?}", root.join(path_config.sources));
+    println!("WTF??? src_dir {:?}", src_dir);
     let contract_name = &meta.contract_name;
     let source_tree = meta.source_tree();
 
