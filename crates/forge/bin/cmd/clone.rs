@@ -218,6 +218,7 @@ impl CloneArgs {
         // dump sources and update the remapping in configuration
         let Settings { remappings: original_remappings, .. } = meta.settings()?;
         let (remappings, strip_old_src) = dump_sources(meta, root)?;
+        println!("WTF 1 remappings {:?}", remappings);
         Config::update_at(root, |config, doc| {
             let profile = config.profile.as_str().as_str();
             let mut remapping_array = toml_edit::Array::new();
@@ -451,6 +452,9 @@ fn dump_sources(meta: &Metadata, root: &PathBuf) -> Result<(Vec<RelativeRemappin
             for e in read_dir(entry.path())? {
                 let e = e?;
                 let dest = src_dir.join(e.file_name());
+                println!("WTF 1 e {:?}", e);
+                println!("WTF 1 src_dir {:?}", src_dir);
+                println!("WTF 1 dest {:?} {:?}", dest, dest.to_string_lossy());
                 std::fs::rename(e.path(), &dest)?;
                 remappings.push(Remapping {
                     context: None,
