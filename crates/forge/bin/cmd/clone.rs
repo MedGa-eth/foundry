@@ -465,6 +465,9 @@ fn dump_sources(meta: &Metadata, root: &PathBuf) -> Result<(Vec<RelativeRemappin
         } else {
             // move the other folders to src
             let dest = src_dir.join(entry.file_name());
+            println!("WTF 1 entry {:?}", entry);
+            println!("WTF 1 src_dir {:?}", src_dir);
+            println!("WTF 1 dest {:?} {:?}", dest, dest.to_string_lossy());
             std::fs::rename(entry.path(), &dest)?;
             remappings.push(Remapping {
                 context: None,
